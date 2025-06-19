@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device‑width, initial‑scale=1.0" />
+  <title>Quick Laundry Service</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+ { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: Arial, sans-serif; line-height: 1.6; background: #f9f9f9; color: #333; padding-bottom: 80px; }
+a { color: #0066cc; text-decoration: none; }
+
+/* Header & Nav */
+header { background: #0055aa; color: #fff; padding: 20px; text-align: center; }
+nav a { margin: 0 10px; color: #fff; }
+
+/* Sections */
+section { padding: 40px 20px; max-width: 800px; margin: auto; }
+
+.services-list { list-style: none; }
+.services-list li { margin-bottom: 10px; }
+
+/* Booking Form */
+form { display: grid; grid-gap: 15px; margin-top: 20px; }
+input, select { padding: 8px; font-size: 1rem; }
+button { padding: 10px; background: #0055aa; color: #fff; border: none; cursor: pointer; }
+
+/* Footer */
+footer { position: absolute; bottom: 0; width: 100%; background: #333; color: #eee; }
+.footer-container { max-width: 1200px; margin: auto; padding: 20px; display: flex; justify-content: space-between; flex-wrap: wrap; }
+.footer-item { flex: 1; min-width: 200px; margin: 10px; }
+.footer-item p { color: #ccc; }
+.footer-copy { width: 100%; text-align: center; margin-top: 10px; font-size: .9rem; border-top: 1px solid #444; padding-top: 10px; }
+
+  <header>
+    <h1>Quick Laundry</h1>
+    <nav>
+      <a href="#services">Services</a>
+      <a href="#book">Book Now</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <section id="services">
+    <h2>Our Services</h2>
+    <ul class="services-list">
+      <li><strong>Wash & Fold:</strong> GH₵5/kg</li>
+      <li><strong>Dry Cleaning:</strong> GH₵15/item</li>
+      <li><strong>Ironing:</strong> GH₵2/item</li>
+    </ul>
+  </section>
+
+  <section id="book">
+    <h2>Book a Pickup</h2>
+    <form id="bookingForm">
+      <label>
+        Name:
+        <input type="text" name="name" required />
+      </label>
+      <label>
+        Phone:
+        <input type="tel" name="phone" required />
+      </label>
+      <label>
+        Service:
+        <select name="service" required>
+          <option value="wash">Wash & Fold</option>
+          <option value="dry">Dry Cleaning</option>
+          <option value="iron">Ironing</option>
+        </select>
+      </label>
+      <label>
+        Quantity:
+        <input type="number" name="quantity" min="1" required />
+      </label>
+      <label>
+        Pickup Date & Time:
+        <input type="datetime-local" name="pickup" required />
+      </label>
+      <button type="submit">Submit Booking</button>
+    </form>
+    <div id="formMessage"></div>
+  </section>
+
+  <footer>
+    <div class="footer-container">
+      <div class="footer-menu">
+        <div class="footer-item">
+          <h4><a href="#about">About</a></h4>
+          <p>Learn more about Quick Laundry—our mission, values, and commitment.</p>
+        </div>
+        <div class="footer-item">
+          <h4><a href="#services">Services</a></h4>
+          <p>See our service menu including pricing and options.</p>
+        </div>
+        <div class="footer-item">
+          <h4><a href="#book">Customize</a></h4>
+          <p>Tailor your laundry experience to fit your needs.</p>
+        </div>
+      </div>
+      <div class="footer-copy">
+        &copy; 2025 Quick Laundry. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+document.getElementById('bookingForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const form = e.target;
+  const data = new FormData(form);
+  const payload = Object.fromEntries(data);
+  // Example: submit to backend API (replace the URL with your endpoint)
+  try {
+    const res = await fetch('/api/book', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    if (!res.ok) throw new Error(await res.text());
+    document.getElementById('formMessage').innerText = '✅ Booking received! We will contact you soon.';
+    form.reset();
+  } catch (err) {
+    document.getElementById('formMessage').innerText = '❗ Submission failed: ' + err.message;
+  }
+});
+
+  <script src="script.js"></script>
+</body>
+</html>
